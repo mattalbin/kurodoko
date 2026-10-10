@@ -1,5 +1,5 @@
 // Kurodoko offline worker. VERSION is stamped by the build; it changes on every release.
-const VERSION = "kurodoko-v5";
+const VERSION = "kurodoko-v6";
 const FILES = [
   "./", "./index.html", "./manifest.webmanifest",
   "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png",

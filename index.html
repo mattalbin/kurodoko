@@ -327,8 +327,8 @@ body { box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); font-
       </ul>
       <div class="label" style="margin-top:14px">Controls</div>
       <ul>
-        <li><b>Tap</b> a cell: black, then dot, then clear. <b>Hold</b> to place a dot.</li>
-        <li><b>Drag</b> with one finger to move the board. <b>Hold</b> a cell, then drag, to dot a line of cells.</li>
+        <li><b>Tap</b> a cell: dot, then black, then clear. <b>Hold</b> to shade it black straight away.</li>
+        <li><b>Drag</b> with one finger to move the board. <b>Hold</b> a cell, then drag, to shade a line of cells.</li>
         <li><b>Two fingers</b> to zoom.</li>
         <li><b>Tap a number</b> to see how many cells it sees now and could see at most.</li>
         <li>Mouse: left click black, right click dot, scroll wheel to zoom, middle button or Space to pan.</li>
@@ -1119,11 +1119,11 @@ function generatePuzzle(N, seed, diff) {
     }
     // Touch: nothing changes yet. Wait to see if this is a tap, a drag, a hold,
     // or just the first finger of a pinch.
-    const g = { type: "pending", from, to: from === EMPTY ? BLK : from === BLK ? DOT : EMPTY, ch: [], last: p, p0: p, cell: i, start: i };
+    const g = { type: "pending", from, to: from === EMPTY ? DOT : from === DOT ? BLK : EMPTY, ch: [], last: p, p0: p, cell: i, start: i };
     gst = g;
     g.lp = setTimeout(() => {
       if (gst !== g || g.type !== "pending" || ptrs.size !== 1) return;
-      g.to = from === DOT ? EMPTY : DOT;
+      g.to = from === BLK ? EMPTY : BLK;
       beginPaint(g);
       try { if (navigator.vibrate) navigator.vibrate(12); } catch (_) {}
     }, 400);
@@ -1313,7 +1313,7 @@ function generatePuzzle(N, seed, diff) {
   /* ---------- updates ----------
      The app compares its own version with version.json on the server. Updating clears only
      the stored app files (never your puzzles, which live separately) and reloads. */
-  const APP_VERSION = 5;
+  const APP_VERSION = 6;
   $("appVer").textContent = APP_VERSION;
   async function latestVersion() {
     const r = await fetch("version.json?t=" + Date.now(), { cache: "no-store" });
@@ -1363,7 +1363,7 @@ function generatePuzzle(N, seed, diff) {
   setTimeout(() => { prefetchSpecial("daily"); prefetchSpecial("weekly"); prefetchSpecial("monthly"); }, 3000);
   if (!store.seenIntro) {
     store.seenIntro = true; persist();
-    setTimeout(() => toast("Tap to shade, hold for a dot, two fingers to zoom.", 4200), 600);
+    setTimeout(() => toast("Tap for a dot, tap again for black, two fingers to zoom.", 4200), 600);
   }
 })();
 </script>
